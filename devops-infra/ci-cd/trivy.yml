@@ -1,0 +1,19 @@
+name: Security Scanning Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  security_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run Checkov (for IaC)
+        run: checkov --directory ./terraform
+
+      - name: Run Trivy (for Docker images)
+        run: trivy image --exit-code 1 --severity HIGH,CRITICAL my-container-image
