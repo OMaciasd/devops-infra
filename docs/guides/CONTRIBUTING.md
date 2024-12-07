@@ -14,10 +14,13 @@
     - [**🖼️ Step 1: Setup Frontend**](#️-step-1-setup-frontend)
     - [**🔧 Step 2: Setup Backend Microservices**](#-step-2-setup-backend-microservices)
     - [**🌐 Step 3: Configure Infrastructure with Terraform**](#-step-3-configure-infrastructure-with-terraform)
-    - [**🔄 Step 4: CI/CD Pipelines**](#-step-4-cicd-pipelines)
   - [**🛡️ Monitoring and Security**](#️-monitoring-and-security)
   - [**🌟 Benefits of the Setup**](#-benefits-of-the-setup)
-  - [**📌 Conclusion**](#-conclusion)
+  - [📌 Conclusion](#-conclusion)
+  - [**Vuex Authentication**](#vuex-authentication)
+    - [**Authentication with Vuex**](#authentication-with-vuex)
+      - [**Authentication Flow**](#authentication-flow)
+      - [**Vuex Store Configuration**](#vuex-store-configuration)
 
 ---
 
@@ -60,12 +63,14 @@ This project provides a comprehensive guide to deploying a 🌐 Vue.js frontend 
    - Clone the Vue.js repository:
 
      ```bash
-     git clone https://github.com/your-org/frontend-vue.git
+     git clone https://github.com/omaciasd/frontend-vue.git
      cd frontend-vue
 
      ```
 
    - Build the application:
+
+   ![npm][npm]
 
      ```bash
      npm install
@@ -95,7 +100,7 @@ This project provides a comprehensive guide to deploying a 🌐 Vue.js frontend 
    - Clone and build each microservice:
 
      ```bash
-     git clone https://github.com/your-org/service-a.git
+     git clone https://github.com/omaciasd/service-a.git
      cd service-a
      mvn clean package
 
@@ -111,10 +116,6 @@ This project provides a comprehensive guide to deploying a 🌐 Vue.js frontend 
      docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/service-a:latest
 
      ```
-
-3. **🚢 Deploy to ECS**:
-
-   - Use Terraform to define and deploy tasks and services for each microservice.
 
 ---
 
@@ -142,40 +143,6 @@ This project provides a comprehensive guide to deploying a 🌐 Vue.js frontend 
 
 ---
 
-### **🔄 Step 4: CI/CD Pipelines**
-
-1. **🌈 Frontend Pipeline**:
-
-   - Configure GitHub Actions to automate builds and S3 deployment. Example:
-
-     ```yaml
-     name: Deploy Frontend
-     on:
-       push:
-         branches:
-           - main
-     jobs:
-       build_and_deploy:
-         runs-on: ubuntu-latest
-         steps:
-           - uses: actions/checkout@v2
-           - uses: actions/setup-node@v2
-             with:
-               node-version: 16
-           - run: npm install
-           - run: npm run build
-           - uses: jakejarvis/s3-sync-action@v0.5.1
-             with:
-               args: --acl public-read
-
-     ```
-
-2. **🐳 Backend Pipeline**:
-
-   - Set up GitHub Actions for building Docker images and deploying to ECS.
-
----
-
 ## **🛡️ Monitoring and Security**
 
 1. **📊 CloudWatch Metrics**:
@@ -200,10 +167,49 @@ This project provides a comprehensive guide to deploying a 🌐 Vue.js frontend 
 
 ---
 
-## **📌 Conclusion**
+## 📌 Conclusion
 
-This deployment guide provides a robust solution for managing frontend and backend applications on AWS, leveraging Terraform and CI/CD pipelines to ensure efficiency, scalability, and security.
+This deployment guide offers a robust solution for managing both the **frontend Vue.js** application and **Java microservices** on AWS, leveraging **Terraform** for infrastructure provisioning and **CI/CD pipelines** for automation. The setup ensures scalability, security, and a streamlined development process.
 
 ---
 
+## **Vuex Authentication**
+
+### **Authentication with Vuex**
+
+For this project, **Vuex** is used to manage the authentication state of the user. The user must log in before being able to access any protected routes like **Home**, **About**, or **Contact**.
+
+#### **Authentication Flow**
+
+1. **Login**:
+
+   - The user logs in via the **Login.vue** component.
+
+   ![login][login]
+
+   - Upon login, the user state is set in **Vuex** using the `setUser` action.
+
+   - The user is then redirected to the **Home** route.
+
+   ![app][app]
+
+2. **Protected Routes**:
+
+   - Routes such as **Home**, **About**, and **Contact** are protected by a **Vue Router navigation guard**.
+
+   - If the user is not authenticated (i.e., the `user` state is `null`), the user is redirected to the login page.
+
+3. **Logout**:
+
+   - The user can log out via the **UserProfile.vue** component.
+
+   - Upon logout, the `clearUser` action in Vuex is called to clear the user state, and the user is redirected back to the login page.
+
+#### **Vuex Store Configuration**
+
+The Vuex store is used to manage the authentication state of the user.
+
 [aws-4]: ../assets/images/aws/aws-4.png
+[login]: ../assets/images/vue/login.png
+[app]: ../assets/images/vue/app.png
+[npm]: ../assets/images/vue/npm.png

@@ -33,44 +33,61 @@ This project focuses on deploying a microservices-based backend and a Vue.js fro
 
 ## 📖 Project Description
 
-This project involves the deployment of a Vue.js frontend and a backend composed of multiple microservices in AWS. It integrates CI/CD pipelines, Terraform for Infrastructure as Code (IaC), and monitoring tools to ensure operational efficiency.
+This project deploys a **Vue.js frontend** with **authentication (login/logout)** and a **microservices-based backend** in AWS. It leverages Terraform for Infrastructure as Code (IaC) and GitHub Actions for CI/CD to ensure efficient deployments.
 
 ### 🎯 Objectives
 
-1. **Deploy Microservices Backend**: Utilize ECS to orchestrate Dockerized Java microservices.
+1. **Frontend Hosting**: Deploy a Vue.js application with login/logout functionality on AWS S3.
 
-2. **Frontend Hosting**: Deploy a Vue.js application on AWS S3 with public access.
+2. **Backend Microservices**: Deploy Java-based microservices on ECS with Docker.
 
-3. **Infrastructure Automation**: Leverage Terraform to provision AWS resources.
+3. **Infrastructure Automation**: Use Terraform to provision AWS
+resources like S3, ECS, and networking.
 
-4. **CI/CD Pipelines**: Automate build, test, and deployment processes using GitHub Actions.
+4. **CI/CD Pipelines**: Automate builds, tests, and deployments for both frontend and backend.
+
+5. **Authentication**: Secure application access with a simple login/logout system.
 
 ---
 
 ### 📂 Project Structure
 
-```plaintext
-.
-├── frontend-vue/
-│   ├── src/
-│   ├── .github/workflows/
-│   │   └── deploy-to-s3.yml
-├── backend-services/
-│   ├── service-a/
-│   ├── service-b/
-│   ├── service-c/
-│   ├── service-d/
-│   └── .github/workflows/
-│       └── ci-cd-backend.yml
-├── devops-infra/
-│   ├── terraform/
-│   │   ├── ecs/
-│   │   ├── s3/
-│   │   ├── network/
-│   │   └── variables.tf
-├── README.md
+  ```plaintext
+  .
+  ├── frontend-vue/
+  │   ├── public/
+  │   │   ├── index.html              # Main HTML file for Vue.js
+  │   ├── src/
+  │   │   ├── assets/                 # Static assets like images or styles
+  │   │   ├── components/             # Vue components (e.g., UserProfile.vue)
+  │   │   ├── views/                  # Pages for Vue Router (e.g., Home.vue, About.vue)
+  │   │   ├── router/                 # Vue Router configuration
+  │   │   │   └── index.js
+  │   │   ├── store/                  # Vuex store
+  │   │   │   └── index.js
+  │   │   ├── App.vue                 # Root component
+  │   │   └── main.js                 # Entry point for the application
+  │   ├── .github/workflows/
+  │   │   └── deploy-to-s3.yml        # CI/CD workflow for frontend
+  │   ├── package.json                # Node.js dependencies and scripts
+  │   ├── vite.config.js              # Configuration file for Vite
+  │   └── README.md                   # Frontend-specific documentation
+  ├── backend-services/
+  │   ├── service-a/
+  │   ├── service-b/
+  │   ├── service-c/
+  │   ├── service-d/
+  │   └── .github/workflows/
+  │       └── ci-cd-backend.yml       # CI/CD workflow for backend
+  ├── devops-infra/
+  │   ├── terraform/
+  │   │   ├── ecs/                    # Terraform configuration for ECS
+  │   │   ├── s3/                     # Terraform configuration for S3
+  │   │   ├── network/                # Terraform configuration for networking
+  │   │   └── variables.tf            # Terraform variables
+  ├── README.md                       # Main project documentation
 
-```
+  ```
 
 ---
 
@@ -89,12 +106,12 @@ This project involves the deployment of a Vue.js frontend and a backend composed
 
 ### 🔄 Clone the Repositories
 
-```bash
-git clone https://github.com/omaciasd/frontend-vue.git
-git clone https://github.com/omaciasd/backend-services.git
-git clone https://github.com/omaciasd/devops-infra.git
+  ```bash
+  git clone https://github.com/omaciasd/frontend-vue.git
+  git clone https://github.com/omaciasd/backend-services.git
+  git clone https://github.com/omaciasd/devops-infra.git
 
-```
+  ```
 
 ---
 
@@ -102,10 +119,10 @@ git clone https://github.com/omaciasd/devops-infra.git
 
 Run this command to prepare the Terraform environment and install the required modules:
 
-```bash
-terraform init
+  ```bash
+  terraform init
 
-```
+  ```
 
 - Download required modules: Fetches all necessary modules defined in the Terraform configuration files.
 
@@ -119,10 +136,10 @@ terraform init
 
 This command generates a plan that shows the resources that will be created or updated.
 
-```bash
-terraform plan
+  ```bash
+  terraform plan
 
-```
+  ```
 
 ---
 
@@ -130,10 +147,10 @@ terraform plan
 
 Run the following command to create the resources in AWS:
 
-```bash
-terraform apply
+  ```bash
+  terraform apply
 
-```
+  ```
 
 Make sure to confirm by typing yes when Terraform prompts for approval.
 
@@ -169,9 +186,10 @@ Run the workflows located in `backend-services/.github/workflows/ci-cd-backend.y
 
 ## 📈 Benefits
 
-- **Scalability**: Backend services managed on ECS with load balancing.
-- **Automation**: Streamlined CI/CD pipelines for efficient deployments.
-- **Security**: Integrated IAM roles and security groups for resource isolation.
+- **Authentication**: Ensures secure access to the application.
+- **Scalability**: Backend services hosted on ECS with load balancing.
+- **Automation**: CI/CD pipelines streamline deployment processes.
+- **Infrastructure as Code**: Terraform simplifies resource provisioning and management.
 
 ---
 
